@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import './AuthPage.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import "./AuthPage.css";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) =>
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
       await login(form.email, form.password);
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed. Please try again.');
+      setError(err.response?.data?.error || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -28,15 +29,27 @@ export default function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">
-          <span className="auth-logo-icon">⬡</span>
-          <span className="auth-logo-text">CollabSpace</span>
+          <span className="auth-logo-icon">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/8686/8686382.png"
+              alt="CollabSpace Logo"
+              style={{
+                width:"25px"
+              }}
+            />
+          </span>
+          <span className="auth-logo-text">CommuniWeb</span>
         </div>
 
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-subtitle">Sign in to continue collaborating</p>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="auth-error" role="alert">{error}</div>}
+          {error && (
+            <div className="auth-error" role="alert">
+              {error}
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -66,8 +79,18 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="btn-primary auth-btn" disabled={loading}>
-            {loading ? <><span className="btn-spinner" /> Signing in…</> : 'Sign In'}
+          <button
+            type="submit"
+            className="btn-primary auth-btn"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="btn-spinner" /> Signing in…
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
